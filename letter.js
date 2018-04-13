@@ -1,42 +1,33 @@
-// * **Letter.js**: Contains a constructor, Letter. This constructor should be able to either display an underlying character or a blank placeholder (such as an underscore), depending on whether or not the user has guessed the letter. That means the constructor should define:
+// var arg=process.argv[2];
+var letters=[];
 
-var arg=process.argv[2];
-
-function Letter(char, guessed){
+var Letter = function(char, guessed){
+    //stores the character
     this.char=char;
+    //whether it's been guessed or not
     this.guessed=false;
+    //if it's guessed, send the letter; if not, send the _
     this.isGuessed=function(){
         if (this.guessed) {
-            return this.char;
+            console.log("adding letter: "+this.char);
+            letters.push(this.char);
         }
-        else {return "_";}
-    };
-        if (this.guessed) {
-            return this.char;
+        else {
+            console.log("adding _");
+            letters.push("_");
         }
-        else {return "_";}
+        // console.log(letters.join(" "));
     };
-    this.checkLetter=function(){
-        if (arg.toLowerCase() === this.char){
+    //compares guessed letter to see if there's a match
+    this.checkLetter=function(currentChar){
+        if (currentChar.toLowerCase() === this.char){
             this.guessed = true;
-            return this.guessed;
+            console.log("checkLetter: "+this.guessed);
         }
     }
     this.print=function(){
-        console.log(this.char, this.guessed);
+        console.log(letters.join(" "));
     }
 }
 
-var let = new Letter("r",false);
-let.isGuessed();
-let.checkLetter();
-let.print();
-
-
-//   * A string value to store the underlying character for the letter
-
-//   * A boolean value that stores whether that letter has been guessed yet
-
-//   * A function that returns the underlying character if the letter has been guessed, or a placeholder (like an underscore) if the letter has not been guessed
-
-//   * A function that takes a character as an argument and checks it against the underlying character, updating the stored boolean value to true if it was guessed correctly
+module.exports = Letter;

@@ -1,32 +1,49 @@
-var fs=require("fs");
-// * **Word.js**: Contains a constructor, Word that depends on the Letter constructor. This is used to create an object representing the current word the user is attempting to guess. That means the constructor should define:
+var Letter = require("./letter");
+//creates an object representing the current word the user is attempting to guess. 
 
 function Word(currentWord){
+    //splits the word into pieces
     this.chars = currentWord.split("");
-    this.displayedWord=function(){
-        var g = isGuessed
-        // if (isGuessed(chars[0])){console.log("true");}
+
+    //concatenates the split pieces with spaces to display
+    this.displayedWord=function(char, guessed){
+        //run this for each letter in this.char (the split word)
         for (var i=0; i<this.chars.length;i++){
-            var displayedWord=this.isGuessed(this.chars[i])+" ";
+            //call the letter.js first func - if it's already guessed it'll show the letter, if not an _
+            var char = this.chars[i];
+            console.log("char: "+char);
+            var newLetter = new Letter(char, guessed);
+            console.log("newLetter: "+newLetter.char+newLetter.guessed);
+            newLetter.isGuessed();
+        }
+        newLetter.print();
+    };
+
+    //true if a letter has been guessed
+    this.flag=0;
+
+    //gets user inputed letter, calls letter.js second func to compare to each letter in this.char
+    this.compareLetters=function(currentChar, guessed){
+        console.log("currentChar: "+currentChar);
+        for (var i=0; i<this.chars.length;i++){
+            var char = this.chars[i];
+            console.log("here1");
+            var newCheck = new Letter(char, guessed);
+
+            console.log(currentChar);
+            newCheck.checkLetter(currentChar);            
+            
+            if (newCheck.guessed===true){
+                console.log("newCheck.guess: "+newCheck.guessed);
+                this.flag++;
+            }
         }
     }
-    this.compareLetters=function(){
-        for (var i=0; i<currentWord.length;i++){
-            return checkLetter();
-        }
-    }
+
     this.print=function(){
         console.log(this.chars);
         console.log(this.displayedWord());
     }
 }
 
-var word = new Word("pie");
-word.print();
-
-
-//   * An array of `new` Letter objects representing the letters of the underlying word
-
-//   * A function that returns a string representing the word. This should call the function on each letter object (the first function defined in `Letter.js`) that displays the character or an underscore and concatenate those together.
-
-//   * A function that takes a character as an argument and calls the guess function on each letter object (the second function defined in `Letter.js`)
+module.exports = Word;
